@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import Header from "./components/header/Header";
+import "./App.css";
+import Balance from "./components/balance/Balance";
+import IncomeExpense from "./components/incomeExpense/IncomeExpense";
+import TransactionList from "./components/transactionList/TransactionList";
+import AddTransaction from "./components/addTransaction/AddTransaction";
+import { connect } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = (props) => {
+	const { transactions } = props;
 
-export default App;
+	useEffect(() => {
+		localStorage.setItem("transactions", JSON.stringify(transactions));
+	}, [transactions]);
+
+	return (
+		<>
+			<Header />
+			<div className="container">
+				<Balance />
+				<IncomeExpense />
+				<TransactionList />
+				<AddTransaction />
+			</div>
+		</>
+	);
+};
+
+const mapStateToProps = (state) => {
+	return {
+		transactions: state.expenseReducer.transactions,
+	};
+};
+
+export default connect(mapStateToProps, null)(App);
