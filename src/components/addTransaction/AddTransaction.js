@@ -11,15 +11,17 @@ const AddTransaction = (props) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const newTransaction = {
-			id: Math.floor(Math.random() * 100000000),
-			text,
-			amount: +amount,
-		};
+		if (text !== "") {
+			const newTransaction = {
+				id: Math.floor(Math.random() * 100000000),
+				text,
+				amount: +amount,
+			};
 
-		addTransaction(newTransaction);
-		setAmount(0);
-		setText("");
+			addTransaction(newTransaction);
+			setAmount(0);
+			setText("");
+		}
 	};
 
 	return (
